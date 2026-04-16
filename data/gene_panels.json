@@ -1,0 +1,29 @@
+{
+  "panels": {
+    "hereditary_cancer": {
+      "name": "Hereditary Cancer Panel",
+      "description": "Genes associated with hereditary cancer syndromes",
+      "genes": ["BRCA1", "BRCA2", "TP53", "PTEN", "CDH1", "PALB2", "ATM", "CHEK2", "MLH1", "MSH2", "MSH6", "PMS2", "APC", "MUTYH", "STK11", "SMAD4", "BMPR1A", "RB1", "VHL", "WT1", "RET", "MEN1", "NF1", "NF2", "BRIP1", "RAD51C", "RAD51D", "BARD1"]
+    },
+    "cardiovascular": {
+      "name": "Cardiovascular Panel",
+      "description": "Genes associated with inherited cardiovascular conditions",
+      "genes": ["MYH7", "MYBPC3", "TNNT2", "TNNI3", "TPM1", "ACTC1", "MYL2", "MYL3", "LMNA", "SCN5A", "KCNQ1", "KCNH2", "RYR2", "PKP2", "DSP", "DSG2", "DSC2", "TMEM43", "FBN1", "TGFBR1", "TGFBR2", "SMAD3", "COL3A1", "ACTA2"]
+    },
+    "neurological": {
+      "name": "Neurological Disorders Panel",
+      "description": "Genes associated with neurodegenerative and neurological conditions",
+      "genes": ["APOE", "APP", "PSEN1", "PSEN2", "MAPT", "GRN", "C9orf72", "SOD1", "FUS", "TARDBP", "HTT", "ATXN1", "ATXN2", "ATXN3", "PARK2", "PINK1", "LRRK2", "SNCA", "GBA", "DYRK1A", "MECP2", "FMR1"]
+    },
+    "pharmacogenomics": {
+      "name": "Pharmacogenomics Panel",
+      "description": "Genes affecting drug metabolism and response",
+      "genes": ["CYP2D6", "CYP2C19", "CYP2C9", "CYP3A5", "CYP1A2", "DPYD", "TPMT", "UGT1A1", "VKORC1", "SLCO1B1", "ABCB1", "NAT2", "G6PD", "HLA-B", "HLA-A", "IFNL3", "CYP2B6", "NUDT15", "CYP4F2", "RYR1"]
+    },
+    "rare_disease": {
+      "name": "Rare Disease Panel",
+      "description": "Genes commonly tested in rare disease diagnostic workups",
+      "genes": ["CFTR", "SMN1", "DMD", "FBN1", "COL1A1", "COL1A2", "PKD1", "PKD2", "TSC1", "TSC2", "GAA", "GLA", "HEXA", "IDUA", "PAH", "GALT", "HBB", "HBA1", "HBA2", "FKRP", "LAMA2"]
+    }
+  }
+}

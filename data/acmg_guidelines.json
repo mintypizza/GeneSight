@@ -1,0 +1,193 @@
+{
+  "criteria": {
+    "pathogenic_very_strong": {
+      "PVS1": {
+        "name": "Null variant in a gene where LOF is a known mechanism of disease",
+        "description": "Nonsense, frameshift, canonical splice site, initiation codon, single or multi-exon deletion in a gene where loss-of-function is a known mechanism of disease.",
+        "strength": "very_strong",
+        "category": "pathogenic"
+      }
+    },
+    "pathogenic_strong": {
+      "PS1": {
+        "name": "Same amino acid change as a previously established pathogenic variant",
+        "description": "Same amino acid change as an established pathogenic variant regardless of nucleotide change.",
+        "strength": "strong",
+        "category": "pathogenic"
+      },
+      "PS2": {
+        "name": "De novo (confirmed) in a patient with disease and no family history",
+        "description": "De novo (both maternity and paternity confirmed) in a patient with the disease and no family history.",
+        "strength": "strong",
+        "category": "pathogenic"
+      },
+      "PS3": {
+        "name": "Well-established functional studies show damaging effect",
+        "description": "Well-established in vitro or in vivo functional studies supportive of a damaging effect on the gene or gene product.",
+        "strength": "strong",
+        "category": "pathogenic"
+      },
+      "PS4": {
+        "name": "Prevalence significantly increased in affected vs. controls",
+        "description": "The prevalence of the variant in affected individuals is significantly increased compared with the prevalence in controls.",
+        "strength": "strong",
+        "category": "pathogenic"
+      }
+    },
+    "pathogenic_moderate": {
+      "PM1": {
+        "name": "Located in a mutational hot spot or well-studied functional domain",
+        "description": "Located in a mutational hot spot and/or critical and well-established functional domain without benign variation.",
+        "strength": "moderate",
+        "category": "pathogenic"
+      },
+      "PM2": {
+        "name": "Absent from controls or extremely low frequency",
+        "description": "Absent from controls (or at extremely low frequency if recessive) in population databases.",
+        "strength": "moderate",
+        "category": "pathogenic"
+      },
+      "PM3": {
+        "name": "Detected in trans with a pathogenic variant for recessive disorders",
+        "description": "For recessive disorders, detected in trans with a pathogenic variant.",
+        "strength": "moderate",
+        "category": "pathogenic"
+      },
+      "PM4": {
+        "name": "Protein length change due to in-frame deletion/insertion",
+        "description": "Protein length changes as a result of in-frame deletions/insertions in a non-repeat region or stop-loss variants.",
+        "strength": "moderate",
+        "category": "pathogenic"
+      },
+      "PM5": {
+        "name": "Novel missense at a residue where a different pathogenic missense has been seen",
+        "description": "Novel missense change at an amino acid residue where a different missense change determined to be pathogenic has been seen before.",
+        "strength": "moderate",
+        "category": "pathogenic"
+      },
+      "PM6": {
+        "name": "Assumed de novo without confirmation of paternity/maternity",
+        "description": "Assumed de novo, but without confirmation of paternity and maternity.",
+        "strength": "moderate",
+        "category": "pathogenic"
+      }
+    },
+    "pathogenic_supporting": {
+      "PP1": {
+        "name": "Cosegregation with disease in multiple family members",
+        "description": "Cosegregation with disease in multiple affected family members in a gene definitively known to cause the disease.",
+        "strength": "supporting",
+        "category": "pathogenic"
+      },
+      "PP2": {
+        "name": "Missense in a gene with low rate of benign missense and pathogenic missenses are common",
+        "description": "Missense variant in a gene that has a low rate of benign missense variation and in which missense variants are a common mechanism of disease.",
+        "strength": "supporting",
+        "category": "pathogenic"
+      },
+      "PP3": {
+        "name": "Multiple computational tools predict deleterious effect",
+        "description": "Multiple lines of computational evidence support a deleterious effect on the gene or gene product.",
+        "strength": "supporting",
+        "category": "pathogenic"
+      },
+      "PP4": {
+        "name": "Patient phenotype highly specific for gene-associated disease",
+        "description": "Patient's phenotype or family history is highly specific for a disease with a single genetic etiology.",
+        "strength": "supporting",
+        "category": "pathogenic"
+      },
+      "PP5": {
+        "name": "Reputable source reports variant as pathogenic",
+        "description": "Reputable source recently reports variant as pathogenic, but evidence is not available to the laboratory to perform an independent evaluation.",
+        "strength": "supporting",
+        "category": "pathogenic"
+      }
+    },
+    "benign_standalone": {
+      "BA1": {
+        "name": "Allele frequency >5% in any general population dataset",
+        "description": "Allele frequency is >5% in Exome Sequencing Project, 1000 Genomes Project, or Exome Aggregation Consortium.",
+        "strength": "standalone",
+        "category": "benign"
+      }
+    },
+    "benign_strong": {
+      "BS1": {
+        "name": "Allele frequency greater than expected for disorder",
+        "description": "Allele frequency is greater than expected for disorder.",
+        "strength": "strong",
+        "category": "benign"
+      },
+      "BS2": {
+        "name": "Observed in healthy adult with full penetrance expected at early age",
+        "description": "Observed in a healthy adult individual for a recessive (homozygous), dominant (heterozygous), or X-linked (hemizygous) disorder, with full penetrance expected at an early age.",
+        "strength": "strong",
+        "category": "benign"
+      },
+      "BS3": {
+        "name": "Well-established functional studies show no damaging effect",
+        "description": "Well-established in vitro or in vivo functional studies show no damaging effect on protein function or splicing.",
+        "strength": "strong",
+        "category": "benign"
+      },
+      "BS4": {
+        "name": "Lack of segregation in affected family members",
+        "description": "Lack of segregation in affected members of a family.",
+        "strength": "strong",
+        "category": "benign"
+      }
+    },
+    "benign_supporting": {
+      "BP1": {
+        "name": "Missense in a gene where only truncating variants cause disease",
+        "description": "Missense variant in a gene for which primarily truncating variants are known to cause disease.",
+        "strength": "supporting",
+        "category": "benign"
+      },
+      "BP2": {
+        "name": "Observed in trans or in cis with a pathogenic variant",
+        "description": "Observed in trans with a pathogenic variant for a fully penetrant dominant gene/disorder or observed in cis with a pathogenic variant in any inheritance pattern.",
+        "strength": "supporting",
+        "category": "benign"
+      },
+      "BP3": {
+        "name": "In-frame deletion/insertion in a repetitive region",
+        "description": "In-frame deletions/insertions in a repetitive region without a known function.",
+        "strength": "supporting",
+        "category": "benign"
+      },
+      "BP4": {
+        "name": "Multiple computational tools predict no impact",
+        "description": "Multiple lines of computational evidence suggest no impact on gene or gene product.",
+        "strength": "supporting",
+        "category": "benign"
+      },
+      "BP5": {
+        "name": "Variant found in a case with an alternate molecular basis",
+        "description": "Variant found in a case with an alternate molecular basis for disease.",
+        "strength": "supporting",
+        "category": "benign"
+      },
+      "BP6": {
+        "name": "Reputable source reports variant as benign",
+        "description": "Reputable source recently reports variant as benign, but evidence is not available to the laboratory to perform an independent evaluation.",
+        "strength": "supporting",
+        "category": "benign"
+      },
+      "BP7": {
+        "name": "Synonymous variant with no predicted splice impact",
+        "description": "A synonymous (silent) variant for which splicing prediction algorithms predict no impact to the splice consensus sequence nor the creation of a new splice site.",
+        "strength": "supporting",
+        "category": "benign"
+      }
+    }
+  },
+  "classification_rules": {
+    "pathogenic": "PVS1 + >=1 PS, OR >=2 PS, OR PVS1 + >=2 PM, OR 1 PS + >=3 PP, OR >=2 PM + >=2 PP",
+    "likely_pathogenic": "PVS1 + 1 PM, OR 1 PS + 1-2 PM, OR 1 PS + >=2 PP, OR >=3 PM, OR 2 PM + >=2 PP",
+    "benign": "BA1 standalone, OR >=2 BS",
+    "likely_benign": "1 BS + 1 BP, OR >=2 BP",
+    "uncertain_significance": "Does not meet criteria for pathogenic/likely pathogenic or benign/likely benign"
+  }
+}
