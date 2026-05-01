@@ -61,8 +61,17 @@ st.markdown(get_custom_css(), unsafe_allow_html=True)
 # ========================
 # Session State Init
 # ========================
+# Check for API key: secrets first, then env var, then manual input
+_secret_key = ""
+try:
+    _secret_key = st.secrets.get("GEMINI_API_KEY", "")
+except Exception:
+    pass
+if not _secret_key:
+    _secret_key = os.environ.get("GEMINI_API_KEY", "")
+
 if "api_key" not in st.session_state:
-    st.session_state.api_key = os.environ.get("GEMINI_API_KEY", "")
+    st.session_state.api_key = _secret_key
 if "analysis_result" not in st.session_state:
     st.session_state.analysis_result = None
 if "patient_report" not in st.session_state:
@@ -72,6 +81,7 @@ if "analysis_running" not in st.session_state:
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = "gemma-4-31b-it"
 
+_has_secret = bool(_secret_key)
 
 # ========================
 # Sidebar
@@ -79,23 +89,27 @@ if "selected_model" not in st.session_state:
 with st.sidebar:
     st.markdown("## ⚙️ Configuration")
 
-    # API Key input
-    api_key = st.text_input(
-        "Google AI Studio API Key",
-        value=st.session_state.api_key,
-        type="password",
-        help="Get your free API key at https://aistudio.google.com/apikey",
-        placeholder="Enter your API key..."
-    )
-    if api_key:
-        st.session_state.api_key = api_key
-
-    if not api_key:
-        st.warning("⚠️ Enter your API key to enable AI analysis")
-        st.markdown(
-            "[🔑 Get a free API key →](https://aistudio.google.com/apikey)",
-            unsafe_allow_html=True
+    if _has_secret:
+        # Key is set via secrets — don't expose it
+        st.success("🔑 API key configured via secrets")
+    else:
+        # No secret — show manual input
+        api_key = st.text_input(
+            "Google AI Studio API Key",
+            value=st.session_state.api_key,
+            type="password",
+            help="Get your free API key at https://aistudio.google.com/apikey",
+            placeholder="Enter your API key..."
         )
+        if api_key:
+            st.session_state.api_key = api_key
+
+        if not st.session_state.api_key:
+            st.warning("⚠️ Enter your API key to enable AI analysis")
+            st.markdown(
+                "[🔑 Get a free API key →](https://aistudio.google.com/apikey)",
+                unsafe_allow_html=True
+            )
 
     st.markdown("---")
 
