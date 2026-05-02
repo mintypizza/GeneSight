@@ -115,10 +115,10 @@ with st.sidebar:
 
     # Model selection
     st.session_state.selected_model = st.selectbox(
-        "AI Model",
-        options=["gemini-2.0-flash", "gemma-4-31b-it", "gemma-4-26b-a4b-it"],
+        "Gemma 4 Model",
+        options=["gemma-4-26b-a4b-it", "gemma-4-31b-it"],
         index=0,
-        help="Flash: Fastest. Gemma 4 31B: Best quality (slower). 26B MoE: Balanced."
+        help="26B MoE: Fast + efficient (recommended). 31B Dense: Best quality (slower)."
     )
 
     st.markdown("---")

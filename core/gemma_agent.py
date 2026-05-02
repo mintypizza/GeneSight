@@ -51,7 +51,7 @@ Disclaimer: This is for research/educational purposes only.
 class GemmaAgent:
     """Gemma 4 agent for genetic variant analysis with function calling."""
 
-    def __init__(self, api_key: str, model: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: str, model: str = "gemma-4-26b-a4b-it"):
         """
         Initialize the Gemma 4 agent.
 
@@ -234,7 +234,7 @@ Write the patient-friendly explanation now:"""
             return f"Error generating patient report: {str(e)}"
 
 
-def quick_analyze(api_key: str, variant_query: str, model: str = "gemini-2.0-flash") -> dict:
+def quick_analyze(api_key: str, variant_query: str, model: str = "gemma-4-26b-a4b-it") -> dict:
     """
     Convenience function for quick variant analysis.
 
