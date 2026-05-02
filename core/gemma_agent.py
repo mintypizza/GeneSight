@@ -28,66 +28,30 @@ TOOL_DISPATCH = {
     "tool_check_drug_interactions": tool_check_drug_interactions,
 }
 
-SYSTEM_PROMPT = """You are GeneSight, an expert AI genetic variant interpreter. Your role is to 
-analyze genetic variants and provide comprehensive, clinically-grounded interpretations.
+SYSTEM_PROMPT = """You are GeneSight, an expert AI genetic variant interpreter.
 
-You have access to the following tools:
-1. **tool_query_clinvar** — Query ClinVar for variant clinical significance
-2. **tool_query_uniprot** — Query UniProt for protein function and domain information
-3. **tool_search_pubmed** — Search PubMed for relevant research literature
-4. **tool_assess_pathogenicity** — Apply ACMG/AMP criteria for systematic classification
-5. **tool_check_drug_interactions** — Check pharmacogenomic drug interactions
+Call ALL relevant tools in parallel when possible to minimize round trips.
+For a typical variant analysis, call tool_query_clinvar, tool_query_uniprot, and tool_search_pubmed simultaneously in your first turn.
+Then call tool_assess_pathogenicity and tool_check_drug_interactions together in your second turn.
 
-## Your Analysis Protocol
-
-When analyzing a genetic variant, follow this systematic approach:
-
-1. **Identify the variant** — Parse the gene, variant notation, and variant type
-2. **Query ClinVar** — Get existing clinical classification and review status
-3. **Query UniProt** — Understand the protein function and where the variant falls
-4. **Search PubMed** — Find relevant research supporting the interpretation
-5. **Assess pathogenicity** — Apply ACMG criteria based on gathered evidence
-6. **Check drug interactions** — Identify any pharmacogenomic implications
-
-## Response Format
-
-After gathering all evidence, provide your analysis in this structure:
-
+After gathering evidence, respond with:
 ### Variant Summary
-Brief overview of the variant and its location.
-
-### Clinical Significance
-Classification with evidence level and confidence.
-
+### Clinical Significance (classification + confidence)
 ### Molecular Impact
-How this variant affects protein function based on UniProt data.
-
 ### Disease Associations
-Known disease connections from ClinVar and literature.
-
-### Pharmacogenomic Implications
-Any drug interaction warnings (if applicable).
-
+### Pharmacogenomic Implications (if applicable)
 ### Supporting Literature
-Key references from PubMed.
-
 ### Clinical Recommendations
-Actionable recommendations based on the evidence.
 
-## Important Guidelines
-- Always ground your interpretations in evidence from the tools
-- Cite specific database entries and papers
-- Be clear about uncertainty — if evidence is limited, say so
-- Include a disclaimer that this is for research/educational purposes
-- Use appropriate clinical terminology but explain complex concepts
-- Never overstate the significance of uncertain findings
+Ground all interpretations in tool evidence. Cite database entries. Be clear about uncertainty.
+Disclaimer: This is for research/educational purposes only.
 """
 
 
 class GemmaAgent:
     """Gemma 4 agent for genetic variant analysis with function calling."""
 
-    def __init__(self, api_key: str, model: str = "gemma-4-31b-it"):
+    def __init__(self, api_key: str, model: str = "gemini-2.0-flash"):
         """
         Initialize the Gemma 4 agent.
 
@@ -102,7 +66,7 @@ class GemmaAgent:
     def analyze_variant(
         self,
         user_query: str,
-        max_turns: int = 8,
+        max_turns: int = 5,
         on_tool_call: Optional[callable] = None,
         on_thinking: Optional[callable] = None
     ) -> dict:
@@ -132,7 +96,7 @@ class GemmaAgent:
             tools=ALL_TOOLS,
             automatic_function_calling=False,
             temperature=0.3,
-            max_output_tokens=4096,
+            max_output_tokens=2048,
         )
 
         final_text = ""
@@ -270,7 +234,7 @@ Write the patient-friendly explanation now:"""
             return f"Error generating patient report: {str(e)}"
 
 
-def quick_analyze(api_key: str, variant_query: str, model: str = "gemma-4-31b-it") -> dict:
+def quick_analyze(api_key: str, variant_query: str, model: str = "gemini-2.0-flash") -> dict:
     """
     Convenience function for quick variant analysis.
 
