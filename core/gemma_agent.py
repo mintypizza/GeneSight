@@ -88,7 +88,7 @@ class GemmaAgent:
         start_time = time.time()
 
         messages = [
-            types.Content(role="user", parts=[types.Part.from_text(user_query)])
+            types.Content(role="user", parts=[types.Part.from_text(text=user_query)])
         ]
 
         config = types.GenerateContentConfig(
