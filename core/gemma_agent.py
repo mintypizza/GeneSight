@@ -94,7 +94,7 @@ class GemmaAgent:
         config = types.GenerateContentConfig(
             system_instruction=SYSTEM_PROMPT,
             tools=ALL_TOOLS,
-            automatic_function_calling=False,
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
             temperature=0.3,
             max_output_tokens=2048,
         )
