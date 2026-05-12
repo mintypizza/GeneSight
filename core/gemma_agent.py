@@ -88,7 +88,7 @@ class GemmaAgent:
         start_time = time.time()
 
         messages = [
-            {"role": "user", "content": user_query}
+            types.Content(role="user", parts=[types.Part.from_text(user_query)])
         ]
 
         config = types.GenerateContentConfig(
@@ -132,10 +132,7 @@ class GemmaAgent:
 
                 # Execute each function call
                 # Add the model's response (with function calls) to messages
-                messages.append({
-                    "role": "model",
-                    "content": response.candidates[0].content
-                })
+                messages.append(response.candidates[0].content)
 
                 tool_responses = []
                 for fc in function_calls:
@@ -176,10 +173,9 @@ class GemmaAgent:
                     )
 
                 # Add tool responses to messages
-                messages.append({
-                    "role": "user",
-                    "content": tool_responses
-                })
+                messages.append(
+                    types.Content(role="user", parts=tool_responses)
+                )
 
         except Exception as e:
             final_text = f"## Error During Analysis\n\nAn error occurred: {str(e)}\n\nPlease check your API key and try again."

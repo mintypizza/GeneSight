@@ -78,6 +78,8 @@ if "patient_report" not in st.session_state:
     st.session_state.patient_report = None
 if "analysis_running" not in st.session_state:
     st.session_state.analysis_running = False
+if "demo_query" not in st.session_state:
+    st.session_state.demo_query = ""
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = "gemma-4-31b-it"
 
@@ -169,6 +171,10 @@ tab_analyze, tab_results, tab_report, tab_about = st.tabs([
 # TAB 1: Analyze Variant
 # ========================
 with tab_analyze:
+    # Session state for persisting input across reruns
+    if "variant_input" not in st.session_state:
+        st.session_state.variant_input = ""
+
     col_input, col_info = st.columns([2, 1])
 
     with col_input:
@@ -179,21 +185,27 @@ with tab_analyze:
             unsafe_allow_html=True
         )
 
-        # Variant input
+        # Variant input with session state persistence
         user_input = st.text_area(
             "Variant Query",
+            value=st.session_state.variant_input,
             height=100,
             placeholder="Examples:\n• BRCA1 c.68_69del\n• rs80357714\n• TP53 R175H\n• chr17:41276045 G>A",
             label_visibility="collapsed"
         )
+        if user_input:
+            st.session_state.variant_input = user_input
 
         # Demo variant selector
         render_gradient_divider()
         demo_query = render_demo_variant_selector()
 
-        if demo_query and not user_input:
-            user_input = demo_query
-            st.info(f"📋 Selected demo variant. Click 'Analyze' to proceed.")
+        if demo_query:
+            st.session_state.variant_input = demo_query
+            st.rerun()
+
+    # Source of truth
+    active_query = user_input or st.session_state.variant_input
 
     with col_info:
         st.markdown("### Supported Formats")
@@ -208,8 +220,8 @@ with tab_analyze:
         | **HGVS Transcript** | `NM_007294.4:c.68_69del` |
         """)
 
-        if user_input:
-            parsed = parse_variant(user_input)
+        if active_query:
+            parsed = parse_variant(active_query)
             st.markdown("#### Parsed Variant")
             parsed_dict = parsed.to_dict()
             for key, val in parsed_dict.items():
@@ -218,6 +230,12 @@ with tab_analyze:
 
     render_gradient_divider()
 
+    # Debug info
+    with st.expander("🔧 Debug", expanded=False):
+        st.write(f"Query: `{active_query[:80] if active_query else 'EMPTY'}`")
+        st.write(f"API key set: `{bool(st.session_state.api_key)}`")
+        st.write(f"Model: `{st.session_state.selected_model}`")
+
     # Analyze button
     col_btn, col_status = st.columns([1, 2])
 
@@ -225,11 +243,12 @@ with tab_analyze:
         analyze_clicked = st.button(
             "🔬 Analyze with Gemma 4",
             use_container_width=True,
-            disabled=not (user_input and st.session_state.api_key),
+            disabled=not (active_query and st.session_state.api_key),
             type="primary"
         )
 
-    if analyze_clicked and user_input and st.session_state.api_key:
+    if analyze_clicked and active_query and st.session_state.api_key:
+
         with col_status:
             status_container = st.empty()
             progress_bar = st.progress(0)
@@ -268,22 +287,28 @@ with tab_analyze:
             # Run analysis
             with st.spinner("🧠 Gemma 4 is analyzing your variant..."):
                 result = agent.analyze_variant(
-                    user_query=user_input,
+                    user_query=active_query,
                     on_tool_call=on_tool_call,
                     on_thinking=on_thinking
                 )
 
-            progress_bar.progress(100)
-            status_container.markdown(
-                '<div class="loading-pulse" style="border-color: rgba(16,185,129,0.3); '
-                'color: #10B981;">✅ Analysis complete!</div>',
-                unsafe_allow_html=True
-            )
+            # Check if the agent returned an error in its response
+            analysis_text = result.get("analysis", "")
+            if analysis_text.startswith("## Error During Analysis"):
+                progress_bar.empty()
+                st.error(f"❌ {analysis_text}")
+            else:
+                progress_bar.progress(100)
+                status_container.markdown(
+                    '<div class="loading-pulse" style="border-color: rgba(16,185,129,0.3); '
+                    'color: #10B981;">✅ Analysis complete! See the Results tab.</div>',
+                    unsafe_allow_html=True
+                )
 
-            st.session_state.analysis_result = result
-            st.session_state.patient_report = None  # Reset patient report
+                st.session_state.analysis_result = result
+                st.session_state.patient_report = None  # Reset patient report
 
-            st.rerun()
+                st.rerun()
 
         except ImportError as e:
             st.error(f"❌ Missing dependency: {e}. Run `pip install -r requirements.txt`")
