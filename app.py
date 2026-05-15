@@ -115,28 +115,12 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # Model selection — auto-discover available Gemma 4 models
-    if "available_models" not in st.session_state:
-        st.session_state.available_models = ["gemini-2.0-flash"]
-        if st.session_state.api_key:
-            try:
-                from google import genai
-                _client = genai.Client(api_key=st.session_state.api_key)
-                _gemma = []
-                for m in _client.models.list():
-                    if "gemma" in m.name.lower() and "4" in m.name:
-                        short = m.name.replace("models/", "")
-                        _gemma.append(short)
-                if _gemma:
-                    st.session_state.available_models = sorted(_gemma) + ["gemini-2.0-flash"]
-            except Exception:
-                pass
-
+    # Model selection — confirmed model names from ListModels API
     st.session_state.selected_model = st.selectbox(
-        "AI Model",
-        options=st.session_state.available_models,
+        "Gemma 4 Model",
+        options=["gemma-4-26b-a4b-it", "gemma-4-31b-it"],
         index=0,
-        help="Auto-detected from your API key. Gemma 4 models listed first."
+        help="26B MoE: Fast + efficient. 31B Dense: Best quality (slower)."
     )
 
     st.markdown("---")
