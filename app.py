@@ -13,6 +13,7 @@ import sys
 import os
 import json
 import streamlit as st
+import streamlit.components.v1 as components
 from pathlib import Path
 
 # Add project root to path
@@ -82,6 +83,8 @@ if "demo_query" not in st.session_state:
     st.session_state.demo_query = ""
 if "selected_model" not in st.session_state:
     st.session_state.selected_model = "gemma-4-31b-it"
+if "switch_to_results" not in st.session_state:
+    st.session_state.switch_to_results = False
 
 _has_secret = bool(_secret_key)
 
@@ -165,6 +168,21 @@ tab_analyze, tab_results, tab_report, tab_about = st.tabs([
     "📄 Reports",
     "ℹ️ About"
 ])
+
+# Auto-switch to Results tab after analysis completes
+if st.session_state.switch_to_results:
+    st.session_state.switch_to_results = False
+    components.html(
+        """
+        <script>
+        setTimeout(function() {
+            var tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
+            if (tabs.length > 1) { tabs[1].click(); }
+        }, 300);
+        </script>
+        """,
+        height=0
+    )
 
 
 # ========================
@@ -307,6 +325,7 @@ with tab_analyze:
 
                 st.session_state.analysis_result = result
                 st.session_state.patient_report = None  # Reset patient report
+                st.session_state.switch_to_results = True
 
                 st.rerun()
 

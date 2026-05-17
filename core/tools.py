@@ -17,7 +17,7 @@ with open(_ACMG_PATH, 'r', encoding='utf-8') as f:
     _ACMG_DATA = json.load(f)
 
 
-def tool_query_clinvar(variant_query: str, gene_name: str = "") -> str:
+def tool_query_clinvar(search_term: str, gene: str = "") -> str:
     """Query the ClinVar database for clinical significance of a genetic variant.
 
     Use this tool when you need to determine whether a genetic variant is
@@ -25,10 +25,10 @@ def tool_query_clinvar(variant_query: str, gene_name: str = "") -> str:
     submissions from clinical labs and expert panels worldwide.
 
     Args:
-        variant_query: The variant identifier to search. Can be an rsID
+        search_term: The variant identifier to search. Can be an rsID
             (e.g., 'rs80357714'), HGVS notation (e.g., 'c.68_69del'),
             or a descriptive search term.
-        gene_name: Optional gene symbol to narrow search results
+        gene: Optional gene symbol to narrow search results
             (e.g., 'BRCA1', 'TP53').
 
     Returns:
@@ -36,7 +36,7 @@ def tool_query_clinvar(variant_query: str, gene_name: str = "") -> str:
         classification, associated conditions, review status (star rating),
         and links to the ClinVar database entry.
     """
-    result = query_clinvar(variant_query, gene=gene_name if gene_name else None)
+    result = query_clinvar(search_term, gene=gene if gene else None)
     return json.dumps(result, indent=2, default=str)
 
 
@@ -60,7 +60,7 @@ def tool_query_uniprot(gene_name: str) -> str:
     return json.dumps(result, indent=2, default=str)
 
 
-def tool_search_pubmed(search_query: str, max_papers: int = 5) -> str:
+def tool_search_pubmed(query: str, max_results: int = 5) -> str:
     """Search PubMed for relevant biomedical research literature.
 
     Use this tool when you need to find published research about a genetic
@@ -68,17 +68,17 @@ def tool_search_pubmed(search_query: str, max_papers: int = 5) -> str:
     titles, authors, journals, and PubMed links.
 
     Args:
-        search_query: The search terms for PubMed. Can include gene names,
+        query: The search terms for PubMed. Can include gene names,
             variant identifiers, disease names, or combinations
             (e.g., 'BRCA1 pathogenic variant breast cancer').
-        max_papers: Maximum number of papers to return (1-10, default 5).
+        max_results: Maximum number of papers to return (1-10, default 5).
 
     Returns:
         A JSON string containing a list of relevant papers with titles,
         authors, journal names, publication dates, and PubMed URLs.
     """
-    max_papers = min(max(1, max_papers), 10)
-    result = search_pubmed(search_query, max_results=max_papers)
+    max_results = min(max(1, max_results), 10)
+    result = search_pubmed(query, max_results=max_results)
     return json.dumps(result, indent=2, default=str)
 
 
